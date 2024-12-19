@@ -13,6 +13,8 @@ WORKDIR /app
 
 COPY --from=builder /app/target/MusicCatalog-0.0.1-SNAPSHOT.jar MusicCatalog.jar
 
+ENTRYPOINT ["java","-jar","MusicCatalog.jar"]
+
 EXPOSE 8081
 
 ENTRYPOINT ["java", "-jar", "MusicCatalog.jar"]

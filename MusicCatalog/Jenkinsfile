@@ -1,0 +1,40 @@
+pipeline {
+    agent any
+
+    environment {
+        JAVA_HOME = tool 'JDK-17'  // Ensure you have configured JDK 17 in Jenkins Global Tools
+        MAVEN_HOME = "C:\\all\\java YC\\apache-maven-3.9.9"
+        PATH = "C:\\Windows\\System32;${MAVEN_HOME}\\bin;${JAVA_HOME}\\bin;${env.PATH}"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'master', url: 'https://github.com/TERMOUSSI-LAMIAA/MusicCatalog.git'
+            }
+        }
+
+        stage('Test CMD') {
+            steps {
+                bat 'echo Hello World'  // Test if cmd works
+            }
+        }
+
+        stage('Build') {
+            steps {
+                dir('MusicCatalog') {  // Change to the directory containing the pom.xml
+                    bat 'mvn --version'  // Check Maven version
+                    bat 'mvn clean install'  // Build the project
+                }
+            }
+        }
+
+        stage('Test') {
+            steps {
+                dir('MusicCatalog') {  // Change to the directory for running tests
+                    bat 'mvn test'  // Run the tests
+                }
+            }
+        }
+    }
+}
